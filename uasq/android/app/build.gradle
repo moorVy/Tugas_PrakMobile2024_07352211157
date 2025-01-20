@@ -1,0 +1,63 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services" // Plugin Google Services untuk Firebase
+}
+
+android {
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+    namespace = "com.example.uasq"
+    compileSdk = 34 // Gunakan SDK terbaru yang kompatibel
+
+    ndkVersion = flutter.ndkVersion // Menentukan versi NDK jika diperlukan
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8" // Format string sesuai dengan konfigurasi Kotlin
+    }
+
+    defaultConfig {
+        ndk {
+        abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+    }
+        applicationId = "com.example.uasq"
+        minSdk = 23
+        targetSdk = 34 
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            // Optimisasi build untuk mode rilis
+            minifyEnabled false
+            shrinkResources false
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    // Firebase BoM (Bill of Materials) untuk mengelola versi library Firebase
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+
+    // Tambahkan Firebase SDK yang diperlukan
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth' 
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-firestore' 
+}
